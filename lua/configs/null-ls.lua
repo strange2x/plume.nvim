@@ -5,8 +5,8 @@ M.config = function(null_ls)
 		sources = require("null-ls-sources").get_sources(null_ls),
 		on_attach = function(client, bufnr)
 			if client.supports_method("textDocument/formatting") then
-				vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-				vim.api.nvim_create_autocmd("BufWritePre", {
+			-- 	vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
+				vim.api.nvim_create_autocmd("BufWritePost", {
 					group = augroup,
 					buffer = bufnr,
 					callback = function()

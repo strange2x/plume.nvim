@@ -46,6 +46,20 @@ local plugins = {
 		config = require("configs.lualine").setup,
 	},
 	{ "lewis6991/gitsigns.nvim", config = require("configs.gitsigns").setup },
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		opts = {
+			disable_filetype = { "TelescopePrompt", "vim" },
+		}, -- this is equalent to setup({}) function
+	},
+	{
+		"numToStr/Comment.nvim",
+		config = function()
+			require("Comment").setup()
+		end,
+	},
+    {'windwp/nvim-ts-autotag', config = function()require('nvim-ts-autotag').setup() end}
 }
 
 return plugins
