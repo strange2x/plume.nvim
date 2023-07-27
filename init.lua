@@ -19,4 +19,5 @@ vim.opt.isfname:append("@-@")
 vim.opt.updatetime = 50
 
 require("base_remaps")
+require('tab_remaps')
 require("core.lazy")
