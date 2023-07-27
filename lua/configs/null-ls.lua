@@ -2,14 +2,7 @@ local M = {}
 
 M.config = function(null_ls)
 	null_ls.setup({
-		sources = {
-			null_ls.builtins.formatting.stylua,
-			null_ls.builtins.diagnostics.eslint,
-			null_ls.builtins.completion.spell,
-			null_ls.builtins.formatting.prettierd,
-			null_ls.builtins.diagnostics.terraform_validate,
-			null_ls.builtins.formatting.terraform_fmt,
-		},
+		sources = require("null-ls-sources").get_sources(null_ls),
 		on_attach = function(client, bufnr)
 			if client.supports_method("textDocument/formatting") then
 				vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
