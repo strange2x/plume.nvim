@@ -40,6 +40,11 @@ local plugins = {
 			"neovim/nvim-lspconfig",
 		},
 	},
+	{
+		"nvim-lualine/lualine.nvim",
+		dependencies = { "nvim-tree/nvim-web-devicons" },
+		config = require("configs.lualine").setup,
+	},
 }
 
 return plugins
