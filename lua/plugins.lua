@@ -45,6 +45,7 @@ local plugins = {
 		dependencies = { "nvim-tree/nvim-web-devicons" },
 		config = require("configs.lualine").setup,
 	},
+	{ "lewis6991/gitsigns.nvim", config = require("configs.gitsigns").setup },
 }
 
 return plugins
