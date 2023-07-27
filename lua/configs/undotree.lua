@@ -1,9 +1,7 @@
-local M = {};
+local M = {}
 
 M.set_keymaps = function()
-    vim.keymap.set('n', '<leader>U', vim.cmd.UndotreeToggle, {silent= true});
+	vim.keymap.set("n", "<leader>U", vim.cmd.UndotreeToggle, { silent = true })
 end
 
-
-return M;
-
+return M

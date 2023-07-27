@@ -1,7 +1,6 @@
 local M = {}
 
 M.config = function(null_ls)
-	print("NullLS Attached")
 	null_ls.setup({
 		sources = {
 			null_ls.builtins.formatting.stylua,
