@@ -8,6 +8,7 @@ M.get_sources = function(null_ls)
 		null_ls.builtins.formatting.prettierd,
 		null_ls.builtins.diagnostics.terraform_validate,
 		null_ls.builtins.formatting.terraform_fmt,
+        null_ls.builtins.formatting.gofumpt
 	}
 end
 
