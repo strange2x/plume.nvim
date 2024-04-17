@@ -33,6 +33,9 @@ return {
 				javascriptreact = {
 					require("formatter.filetypes.typescript").prettierd,
 				},
+				go = {
+					require("formatter.filetypes.go").gofmt,
+				},
 
 				-- Use the special "*" filetype for defining formatter configurations on
 				-- any filetype

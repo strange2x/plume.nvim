@@ -1,4 +1,4 @@
-local servers = { "lua_ls", "tsserver", "pyright" }
+local servers = { "lua_ls", "tsserver", "pyright", "gopls" }
 
 return {
 	"neovim/nvim-lspconfig",
