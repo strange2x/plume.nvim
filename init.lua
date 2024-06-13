@@ -45,7 +45,7 @@ vim.wo.relativenumber = true
 local local_opts = { silent = true }
 
 -- Launching netrw when clicking on <leader>pv
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex, local_opts)
+-- vim.keymap.set("n", "<leader>pv", vim.cmd.Lexplore, local_opts)
 
 vim.keymap.set("n", "<C-h>", "<C-w>h", local_opts)
 vim.keymap.set("n", "<C-j>", "<C-w>j", local_opts)
@@ -59,4 +59,34 @@ vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>")
 
 vim.cmd([[
   set colorcolumn=80
+]])
+
+
+-- Netrw Customization
+vim.cmd([[ let g:netrw_banner=0 ]])
+vim.cmd([[ let g:netrw_keepdir=0 ]])
+vim.cmd([[ let g:netrw_winsize=20 ]])
+vim.cmd([[ let g:netrw_localcopydircmd='cp -r' ]])
+
+vim.cmd([[ 
+let g:NetrwIsOpen=0
+
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i 
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
+
+" Add your own mapping. For example:
+noremap <silent> <C-E> :call ToggleNetrw()<CR>
 ]])
