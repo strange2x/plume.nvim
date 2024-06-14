@@ -17,7 +17,15 @@ return {
 
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
-			ensure_installed = { "lua_ls", "tsserver", "pyright", "gopls" },
+			ensure_installed = {
+				"lua_ls",
+				"tsserver",
+				"prettierd",
+				"luacheck",
+				"pyright",
+				"gopls",
+				"terraform-ls",
+			},
 			automatic_installation = true,
 		})
 
@@ -28,7 +36,6 @@ return {
 			},
 		})
 
-		-- local servers = { "lua_ls", "tsserver", "pyright", "gopls" }
 		local cmp = require("cmp")
 
 		cmp.setup({

@@ -36,6 +36,9 @@ return {
 				go = {
 					require("formatter.filetypes.go").gofmt,
 				},
+				terraform = {
+					require("formatter.filetypes.terraform").terraformfmt,
+				},
 
 				-- Use the special "*" filetype for defining formatter configurations on
 				-- any filetype

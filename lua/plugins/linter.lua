@@ -6,6 +6,7 @@ return {
 			typescript = { "eslint_d" },
 			python = { "pylint" },
 			go = { "golangcilint" },
+			terraform = { "tflint" },
 		}
 		vim.api.nvim_create_autocmd({ "BufWritePost" }, {
 			callback = function()
