@@ -20,11 +20,9 @@ return {
 			ensure_installed = {
 				"lua_ls",
 				"tsserver",
-				"prettierd",
 				"luacheck",
 				"pyright",
 				"gopls",
-				"terraform-ls",
 			},
 			automatic_installation = true,
 		})
