@@ -53,14 +53,13 @@ vim.keymap.set("n", "<C-k>", "<C-w>k", local_opts)
 vim.keymap.set("n", "<C-l>", "<C-w>l", local_opts)
 
 -- Tab Remaps
-vim.keymap.set("n", "<leader>tN", "<CMD>tabnew<CR><CMD>Ex<CR>")
-vim.keymap.set("n", "<leader>tp", "<CMD>tabprevious<CR>")
-vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>")
+vim.keymap.set("n", "<leader>tN", "<CMD>tabnew<CR><CMD>Ex<CR>", { desc = "[Window] Create new Tab", silent = true })
+vim.keymap.set("n", "<leader>tp", "<CMD>tabprevious<CR>", { desc = "[Window] Goto Previous Tab", silent = true })
+vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>", { desc = "[Window] Goto Next Tab", silent = true })
 
 vim.cmd([[
   set colorcolumn=80
 ]])
-
 
 -- Netrw Customization
 vim.cmd([[ let g:netrw_banner=0 ]])
@@ -68,7 +67,7 @@ vim.cmd([[ let g:netrw_keepdir=0 ]])
 vim.cmd([[ let g:netrw_winsize=20 ]])
 vim.cmd([[ let g:netrw_localcopydircmd='cp -r' ]])
 
-vim.cmd([[ 
+vim.cmd([[
 let g:NetrwIsOpen=0
 
 function! ToggleNetrw()
@@ -76,7 +75,7 @@ function! ToggleNetrw()
         let i = bufnr("$")
         while (i >= 1)
             if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i 
+                silent exe "bwipeout " . i
             endif
             let i-=1
         endwhile

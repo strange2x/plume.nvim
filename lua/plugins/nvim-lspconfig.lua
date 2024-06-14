@@ -1,5 +1,3 @@
-local servers = { "lua_ls", "tsserver", "pyright", "gopls" }
-
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -12,10 +10,25 @@ return {
 		"hrsh7th/nvim-cmp",
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
+		"nvimdev/lspsaga.nvim",
 	},
 	config = function()
-		local lspconfig = require("lspconfig")
+		require("mason").setup()
 
+		local mason_lspconfig = require("mason-lspconfig")
+		mason_lspconfig.setup({
+			ensure_installed = { "lua_ls", "tsserver", "pyright", "gopls" },
+			automatic_installation = true,
+		})
+
+		require("lspsaga").setup({
+			lightbulb = {
+				virtual_text = true,
+				sign = true,
+			},
+		})
+
+		-- local servers = { "lua_ls", "tsserver", "pyright", "gopls" }
 		local cmp = require("cmp")
 
 		cmp.setup({
@@ -74,17 +87,19 @@ return {
 		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		-- Adding capabilities to all servers mentioned above
-		for _, server in ipairs(servers) do
-			lspconfig[server].setup({})
-			require("lspconfig")[server].setup({
-				capabilities = capabilities,
-			})
-		end
+		mason_lspconfig.setup_handlers({
+
+			function(server)
+				require("lspconfig")[server].setup({
+					capabilities = capabilities,
+				})
+			end,
+		})
 		-- Global mappings.
 		-- See `:help vim.diagnostic.*` for documentation on any of the below functions
 		vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
-		vim.keymap.set("n", "[d", vim.diagnostic.goto_prev)
-		vim.keymap.set("n", "]d", vim.diagnostic.goto_next)
+		vim.keymap.set("n", "[d", "<CMD>Lspsaga diagnostic_jump_prev<CR>")
+		vim.keymap.set("n", "]d", "<CMD>Lspsaga diagnostic_jump_next<CR>")
 		vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
 
 		-- Use LspAttach autocommand to only map the following keys
@@ -98,27 +113,61 @@ return {
 				-- Buffer local mappings.
 				-- See `:help vim.lsp.*` for documentation on any of the below functions
 				local opts = { buffer = ev.buf }
-				vim.keymap.set("n", "gD", vim.lsp.buf.declaration, opts)
-				vim.keymap.set("n", "gd", vim.lsp.buf.definition, opts)
-				vim.keymap.set("n", "K", vim.lsp.buf.hover, opts)
-				vim.keymap.set("n", "gi", vim.lsp.buf.implementation, opts)
-				vim.keymap.set("n", "<leader>sg", vim.lsp.buf.signature_help, opts)
-				vim.keymap.set("n", "<space>wa", vim.lsp.buf.add_workspace_folder, opts)
-				vim.keymap.set("n", "<space>wr", vim.lsp.buf.remove_workspace_folder, opts)
+
+				vim.keymap.set(
+					"n",
+					"gD",
+					vim.lsp.buf.declaration,
+					{ desc = "[LSP] Show buffer Declarations", buffer = ev.buf }
+				)
+
+				vim.keymap.set("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "[LSP] Hover", buffer = ev.buf })
+
+				vim.keymap.set(
+					"n",
+					"gi",
+					vim.lsp.buf.implementation,
+					{ desc = "[LSP] Show buffer Implementation", buffer = ev.buf }
+				)
+
+				vim.keymap.set(
+					"n",
+					"<leader>sh",
+					vim.lsp.buf.signature_help,
+					{ desc = "[LSP] Signature help", buffer = ev.buf }
+				)
+
+				vim.keymap.set(
+					"n",
+					"<space>wa",
+					vim.lsp.buf.add_workspace_folder,
+					{ desc = "[LSP] Add Workspace Folder", buffer = ev.buf }
+				)
+
+				vim.keymap.set(
+					"n",
+					"<space>wr",
+					vim.lsp.buf.remove_workspace_folder,
+					{ desc = "[LSP] Remove Workspace Folder", buffer = ev.buf }
+				)
+
 				vim.keymap.set("n", "<space>wl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-				end, opts)
-				vim.keymap.set("n", "<space>D", vim.lsp.buf.type_definition, opts)
-				vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
-				vim.keymap.set({ "n", "v" }, "<space>ca", vim.lsp.buf.code_action, opts)
-				vim.keymap.set("n", "gr", vim.lsp.buf.references, opts)
+				end, { desc = "[LSP] List Workspace Folders", buffer = ev.buf })
+
+				vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename", buffer = ev.buf })
+
+				vim.keymap.set(
+					{ "n", "v" },
+					"<space>ca",
+					vim.lsp.buf.code_action,
+					{ desc = "[LSP] Code Actions", buffer = ev.buf }
+				)
+
 				vim.keymap.set("n", "<space>f", function()
 					vim.lsp.buf.format({ async = true })
-				end, opts)
+				end, { desc = "[LSP] LSP format", buffer = ev.buf })
 			end,
 		})
-
-		require("mason").setup()
-		require("mason-lspconfig").setup()
 	end,
 }

@@ -38,9 +38,25 @@ return {
 		})
 		require("telescope").load_extension("ui-select")
 
-		vim.keymap.set("n", "<leader>ff",builtin.git_files, {})
-		vim.keymap.set("n", "<leader>fg", builtin.live_grep, {})
-		vim.keymap.set("n", "<leader>fb", builtin.buffers, {})
-		vim.keymap.set("n", "<leader>fh", builtin.help_tags, {})
+		vim.keymap.set("n", "<leader>ff", builtin.git_files, { desc = "[Telescope] Find Git Files" })
+		vim.keymap.set("n", "<leader>fg", builtin.live_grep, { desc = "[Telescope] Find in Files" })
+		vim.keymap.set("n", "<leader>lb", builtin.buffers, { desc = "[Telescope] Buffer list" })
+		vim.keymap.set("n", "<leader>fh", builtin.help_tags, { desc = "[Telescope] Show Help" })
+
+		-- LSP Remaps
+		vim.keymap.set("n", "gr", "<CMD>Telescope lsp_references<CR>", { desc = "[LSP] Show References" })
+		vim.keymap.set("n", "gd", "<CMD>Telescope lsp_definitions<CR>", { desc = "[LSP] Show Definitions" })
+		vim.keymap.set(
+			"n",
+			"<leader>D",
+			"<CMD>Telescope lsp_type_definitions<CR>",
+			{ desc = "[LSP] Show Type Definitions" }
+		)
+		vim.keymap.set(
+			"n",
+			"<leader>ds",
+			"<CMD>Telescope lsp_document_symbols<CR>",
+			{ desc = "[LSP] Show Document Symbols" }
+		)
 	end,
 }
