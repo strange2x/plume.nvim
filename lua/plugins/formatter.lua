@@ -38,6 +38,9 @@ return {
 				},
 				terraform = {
 					require("formatter.filetypes.terraform").terraformfmt,
+                },
+				sh = {
+					require("formatter.filetypes.sh").shfmt,
 				},
 
 				-- Use the special "*" filetype for defining formatter configurations on

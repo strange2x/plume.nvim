@@ -89,3 +89,9 @@ endfunction
 " Add your own mapping. For example:
 noremap <silent> <C-E> :call ToggleNetrw()<CR>
 ]])
+
+vim.filetype.add({
+	extension = {
+		yml = "yaml.ansible",
+	},
+})
