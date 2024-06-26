@@ -13,7 +13,15 @@ return {
 		"nvimdev/lspsaga.nvim",
 	},
 	config = function()
-		require("mason").setup()
+		require("mason").setup({
+			ensure_installed = {
+				"tflint",
+				"golanci-lint",
+				"stylua",
+				"luacheck",
+			},
+			automatic_installation = true,
+		})
 
 		local mason_lspconfig = require("mason-lspconfig")
 		mason_lspconfig.setup({
@@ -22,6 +30,7 @@ return {
 				"tsserver",
 				"pyright",
 				"gopls",
+				"terraformls",
 			},
 			automatic_installation = true,
 		})
@@ -101,10 +110,30 @@ return {
 		})
 		-- Global mappings.
 		-- See `:help vim.diagnostic.*` for documentation on any of the below functions
-		vim.keymap.set("n", "<space>e", vim.diagnostic.open_float)
-		vim.keymap.set("n", "[d", "<CMD>Lspsaga diagnostic_jump_prev<CR>")
-		vim.keymap.set("n", "]d", "<CMD>Lspsaga diagnostic_jump_next<CR>")
-		vim.keymap.set("n", "<space>q", vim.diagnostic.setloclist)
+		vim.keymap.set(
+			"n",
+			"<leader>le",
+			vim.diagnostic.open_float,
+			{ silent = true, desc = "[L]sp Diagnostic - Open Float" }
+		)
+		vim.keymap.set(
+			"n",
+			"[d",
+			"<CMD>Lspsaga diagnostic_jump_prev<CR>",
+			{ silent = true, desc = "[L]sp Diagnostic - Jump Previous" }
+		)
+		vim.keymap.set(
+			"n",
+			"]d",
+			"<CMD>Lspsaga diagnostic_jump_next<CR>",
+			{ silent = true, desc = "[L]sp Diagnostic - Jump Next" }
+		)
+		vim.keymap.set(
+			"n",
+			"<space>q",
+			vim.diagnostic.setloclist,
+			{ silent = true, desc = "[L]sp Diagnostic - Send to QuickFix list" }
+		)
 
 		-- Use LspAttach autocommand to only map the following keys
 		-- after the language server attaches to the current buffer
@@ -122,55 +151,55 @@ return {
 					"n",
 					"gD",
 					vim.lsp.buf.declaration,
-					{ desc = "[LSP] Show buffer Declarations", buffer = ev.buf }
+					{ desc = "[L]SP Show buffer Declarations", buffer = ev.buf }
 				)
 
-				vim.keymap.set("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "[LSP] Hover", buffer = ev.buf })
+				vim.keymap.set("n", "K", "<CMD>Lspsaga hover_doc<CR>", { desc = "[L]SP Hover", buffer = ev.buf })
 
 				vim.keymap.set(
 					"n",
 					"gi",
 					vim.lsp.buf.implementation,
-					{ desc = "[LSP] Show buffer Implementation", buffer = ev.buf }
+					{ desc = "LSP [G]oto [I]mplementation", buffer = ev.buf }
 				)
 
 				vim.keymap.set(
 					"n",
-					"<leader>sh",
+					"<leader>lsh",
 					vim.lsp.buf.signature_help,
-					{ desc = "[LSP] Signature help", buffer = ev.buf }
+					{ desc = "[L]SP [S]ignature [H]elp", buffer = ev.buf }
 				)
 
 				vim.keymap.set(
 					"n",
-					"<space>wa",
+					"<space>laf",
 					vim.lsp.buf.add_workspace_folder,
-					{ desc = "[LSP] Add Workspace Folder", buffer = ev.buf }
+					{ desc = "[L]SP [A]dd Workspace [F]older", buffer = ev.buf }
 				)
 
 				vim.keymap.set(
 					"n",
-					"<space>wr",
+					"<space>lrf",
 					vim.lsp.buf.remove_workspace_folder,
-					{ desc = "[LSP] Remove Workspace Folder", buffer = ev.buf }
+					{ desc = "[L]SP [R]emove Workspace [F]older", buffer = ev.buf }
 				)
 
-				vim.keymap.set("n", "<space>wl", function()
+				vim.keymap.set("n", "<space>lwl", function()
 					print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
-				end, { desc = "[LSP] List Workspace Folders", buffer = ev.buf })
+				end, { desc = "[L]SP List Workspace Folders", buffer = ev.buf })
 
 				vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, { desc = "[LSP] Rename", buffer = ev.buf })
 
 				vim.keymap.set(
 					{ "n", "v" },
-					"<space>ca",
+					"<space>lca",
 					vim.lsp.buf.code_action,
-					{ desc = "[LSP] Code Actions", buffer = ev.buf }
+					{ desc = "[L]SP [C]ode [A]ctions", buffer = ev.buf }
 				)
 
-				vim.keymap.set("n", "<space>f", function()
+				vim.keymap.set("n", "<space>lf", function()
 					vim.lsp.buf.format({ async = true })
-				end, { desc = "[LSP] LSP format", buffer = ev.buf })
+				end, { desc = "[L]SP [F]ormat", buffer = ev.buf })
 			end,
 		})
 	end,

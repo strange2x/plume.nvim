@@ -18,7 +18,7 @@ return {
 		},
 	},
 	config = function()
-		vim.keymap.set("n", "<leader>tw", "<CMD>Twilight<CR>")
-		vim.keymap.set("n", "<leader>zm", "<CMD>ZenMode<CR>")
+		vim.keymap.set("n", "<leader>tw", "<CMD>Twilight<CR>", { desc = "[TW]ilight Toggle" })
+		vim.keymap.set("n", "<leader>zm", "<CMD>ZenMode<CR>", { desc = "[Z]en[M]ode Toggle" })
 	end,
 }

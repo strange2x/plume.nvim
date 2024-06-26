@@ -9,11 +9,7 @@ return {
 			log_level = vim.log.levels.WARN,
 			-- All formatter configurations are opt-in
 			filetype = {
-				-- Formatter configurations for filetype "lua" go here
-				-- and will be executed in order
 				lua = {
-					-- "formatter.filetypes.lua" defines default configurations for the
-					-- "lua" filetype
 					require("formatter.filetypes.lua").stylua,
 				},
 				python = {
@@ -38,7 +34,7 @@ return {
 				},
 				terraform = {
 					require("formatter.filetypes.terraform").terraformfmt,
-                },
+				},
 				sh = {
 					require("formatter.filetypes.sh").shfmt,
 				},
