@@ -20,13 +20,13 @@ return {
 					require("formatter.filetypes.typescript").prettier,
 				},
 				typescriptreact = {
-					require("formatter.filetypes.typescript").prettier,
+					require("formatter.filetypes.typescriptreact").prettier,
 				},
 				javascript = {
-					require("formatter.filetypes.typescript").prettier,
+					require("formatter.filetypes.javascript").prettier,
 				},
 				javascriptreact = {
-					require("formatter.filetypes.typescript").prettier,
+					require("formatter.filetypes.javascriptreact").prettier,
 				},
 				html = {
 					require("formatters.filetypes.html").prettier,
