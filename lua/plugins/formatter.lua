@@ -29,7 +29,7 @@ return {
 					require("formatter.filetypes.javascriptreact").prettier,
 				},
 				html = {
-					require("formatters.filetypes.html").prettier,
+					require("formatter.filetypes.html").prettier,
 				},
 				css = {
 					require("formatter.filetypes.css").prettier,
@@ -47,10 +47,10 @@ return {
 					require("formatter.filetypes.yaml").prettier,
 				},
 				markdown = {
-					require("formatters.filetypes.markdown").prettier,
+					require("formatter.filetypes.markdown").prettier,
 				},
 				json = {
-					require("formatters.filetypes.json").prettier,
+					require("formatter.filetypes.json").prettier,
 				},
 
 				-- Use the special "*" filetype for defining formatter configurations on
