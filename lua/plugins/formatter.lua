@@ -5,6 +5,7 @@ return {
 		require("formatter").setup({
 			-- Enable or disable logging
 			logging = true,
+
 			-- Set the log level
 			log_level = vim.log.levels.WARN,
 			-- All formatter configurations are opt-in
@@ -16,18 +17,22 @@ return {
 					require("formatter.filetypes.python").autoflake,
 				},
 				typescript = {
-					require("formatter.filetypes.typescript").prettierd,
+					require("formatter.filetypes.typescript").prettier,
 				},
-
 				typescriptreact = {
-					require("formatter.filetypes.typescript").prettierd,
+					require("formatter.filetypes.typescript").prettier,
 				},
-
 				javascript = {
-					require("formatter.filetypes.typescript").prettierd,
+					require("formatter.filetypes.typescript").prettier,
 				},
 				javascriptreact = {
-					require("formatter.filetypes.typescript").prettierd,
+					require("formatter.filetypes.typescript").prettier,
+				},
+				html = {
+					require("formatters.filetypes.html").prettier,
+				},
+				css = {
+					require("formatter.filetypes.css").prettier,
 				},
 				go = {
 					require("formatter.filetypes.go").gofmt,
@@ -37,6 +42,15 @@ return {
 				},
 				sh = {
 					require("formatter.filetypes.sh").shfmt,
+				},
+				yaml = {
+					require("formatter.filetypes.yaml").prettier,
+				},
+				markdown = {
+					require("formatters.filetypes.markdown").prettier,
+				},
+				json = {
+					require("formatters.filetypes.json").prettier,
 				},
 
 				-- Use the special "*" filetype for defining formatter configurations on
