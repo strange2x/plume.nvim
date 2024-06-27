@@ -58,5 +58,9 @@ return {
 			"<CMD>Telescope lsp_document_symbols<CR>",
 			{ desc = "[LSP] Show Document Symbols" }
 		)
+
+		vim.keymap.set("n", "<leader>ts", function()
+			builtin.grep_string({ search = vim.fn.input("Search > ") })
+		end, { desc = "[T]elescope [S]earch String" })
 	end,
 }
