@@ -1,4 +1,3 @@
-
 local M = {}
 
 M.treesitter = {
@@ -6,8 +5,7 @@ M.treesitter = {
 }
 
 M.mason_lspconfig = {
-	"lua_ls"
+	"lua_ls",
 }
-
 
 return M

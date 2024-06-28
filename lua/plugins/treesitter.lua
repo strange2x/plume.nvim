@@ -5,8 +5,9 @@ return {
 		require("nvim-treesitter.configs").setup({
 			ensure_installed = require("default_installed").treesitter,
 			auto_install = true,
+            sync_install = true,
 			highlight = {
-				enable = true,
+				 enable = true,
 				additional_vim_regex_highlighting = false
 			},
 			indent = {
