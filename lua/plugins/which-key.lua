@@ -13,6 +13,7 @@ return {
 				l = { name = "LSP" },
 				f = { name = "File" },
 				t = { name = "Tabs" },
+				h = { name = "Harpoon" },
 			},
 		})
 	end,
