@@ -13,6 +13,8 @@ vim.opt.backup = false
 vim.opt.undodir = os.getenv("HOME") .. "/.vim/undodir"
 vim.opt.undofile = true
 vim.opt.hlsearch = false
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
 vim.opt.incsearch = true
 vim.opt.termguicolors = true
 vim.opt.scrolloff = 12
@@ -37,11 +39,18 @@ vim.keymap.set("n", "<C-l>", "<C-w>l", local_opts)
 vim.keymap.set("n", "<leader>tN", "<CMD>tabnew<CR><CMD>Ex<CR>", { desc = "[Window] Create new Tab", silent = true })
 vim.keymap.set("n", "<leader>tp", "<CMD>tabprevious<CR>", { desc = "[Window] Goto Previous Tab", silent = true })
 vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>", { desc = "[Window] Goto Next Tab", silent = true })
+vim.keymap.set("n", "<leader>tq", "<CMD>tabclose<CR>", { desc = "[Window] Goto Next Tab", silent = true })
 vim.keymap.set("n", "<leader>e", "<CMD>Lexplore<CR>", { desc = "Open Lexplore", silent = true })
 
 vim.cmd([[
   set colorcolumn=80
 ]])
 
+vim.cmd([[ let g:netrw_banner=0 ]])
+vim.cmd([[ let g:netrw_keepdir=0 ]])
+vim.cmd([[ let g:netrw_winsize=20 ]])
+vim.cmd([[ let g:netrw_localcopydircmd='cp -r' ]])
+
+vim.o.cmdheight = 0
 
 require("config.lazy")

@@ -16,6 +16,12 @@ return {
 				require("efmls-configs.linters.golangci_lint"),
 				require("efmls-configs.formatters.gofumpt"),
 			},
+			python = {
+				require("efmls-configs.formatters.black"),
+			},
+			sh = {
+				require("efmls-configs.formatters.shfmt"),
+			},
 		})
 
 		local efmls_config = {
@@ -38,12 +44,12 @@ return {
 			callback = function(ev)
 				local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
 
-				-- If efm is not there, get the hell out
+				-- If efm is not there, try using the LSP formatting,
 				if vim.tbl_isempty(efm) then
-					return
+					vim.lsp.buf.format({ bufnr = ev.buf })
+				else
+					vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
 				end
-
-				vim.lsp.buf.format({ name = "efm" })
 			end,
 		})
 	end,

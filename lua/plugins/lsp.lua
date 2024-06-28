@@ -83,7 +83,6 @@ local function setup_cmp()
 	local cmp = require("cmp")
 	cmp.setup({
 		snippet = {
-			-- REQUIRED - you must specify a snippet engine
 			expand = function(args)
 				require("luasnip").lsp_expand(args.body) -- For `luasnip` users.
 			end,
@@ -170,5 +169,15 @@ return {
 		setup_mason_autoinstall()
 		create_lspattach_mappings()
 		require("lspsaga").setup()
+
+		require("lspconfig").lua_ls.setup({
+			settings = {
+				Lua = {
+					diagnostics = {
+						globals = { "vim" },
+					},
+				},
+			},
+		})
 	end,
 }
