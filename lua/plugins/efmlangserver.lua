@@ -12,6 +12,10 @@ return {
 			lua = {
 				require("efmls-configs.formatters.stylua"),
 			},
+			go = {
+				require("efmls-configs.linters.golangci_lint"),
+				require("efmls-configs.formatters.gofumpt"),
+			},
 		})
 
 		local efmls_config = {

@@ -6,11 +6,14 @@ M.treesitter = {
 
 M.mason = {
 	"stylua",
+	"gofumpt",
+	"golangci-lint",
 }
 
 M.mason_lspconfig = {
 	"lua_ls",
 	"efm",
+	"gopls",
 }
 
 return M
