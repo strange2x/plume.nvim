@@ -40,7 +40,7 @@ vim.keymap.set("n", "<leader>tN", "<CMD>tabnew<CR><CMD>Ex<CR>", { desc = "[Windo
 vim.keymap.set("n", "<leader>tp", "<CMD>tabprevious<CR>", { desc = "[Window] Goto Previous Tab", silent = true })
 vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>", { desc = "[Window] Goto Next Tab", silent = true })
 vim.keymap.set("n", "<leader>tq", "<CMD>tabclose<CR>", { desc = "[Window] Goto Next Tab", silent = true })
-vim.keymap.set("n", "<leader>e", "<CMD>Lexplore<CR>", { desc = "Open Lexplore", silent = true })
+vim.keymap.set("n", "<leader>e", "<CMD>Explore<CR>", { desc = "Open Explore", silent = true })
 
 vim.cmd([[
   set colorcolumn=80
