@@ -9,11 +9,12 @@ local function setup_lsp_servers()
 		automatic_installation = true,
 	})
 
-    local capabilities = require('cmp_nvim_lsp').default_capabilities()
+	local capabilities = require("cmp_nvim_lsp").default_capabilities()
 	mason_lsp.setup_handlers({
 		function(server_name)
 			require("lspconfig")[server_name].setup({
-            capabilities = capabilities})
+				capabilities = capabilities,
+			})
 		end,
 	})
 end
@@ -125,11 +126,34 @@ local function setup_cmp()
 	})
 end
 
+local function setup_mason_autoinstall()
+	require("mason-tool-installer").setup({
+
+		-- a list of all tools you want to ensure are installed upon
+		-- start
+		ensure_installed = require("default_installed").mason,
+		auto_update = false,
+
+		run_on_start = true,
+
+		start_delay = 3000, -- 3 second delay
+
+		debounce_hours = 5, -- at least 5 hours between attempts to install/update
+
+		integrations = {
+			["mason-lspconfig"] = true,
+			["mason-null-ls"] = false,
+			["mason-nvim-dap"] = false,
+		},
+	})
+end
+
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
 		"williamboman/mason.nvim",
 		"williamboman/mason-lspconfig.nvim",
+		"WhoIsSethDaniel/mason-tool-installer.nvim",
 		{ "nvimdev/lspsaga.nvim", dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" } },
 		"hrsh7th/cmp-nvim-lsp",
 		"hrsh7th/cmp-buffer",
@@ -140,9 +164,10 @@ return {
 		"saadparwaiz1/cmp_luasnip",
 	},
 	config = function()
-        setup_cmp()
+		setup_cmp()
 		setup_mason()
 		setup_lsp_servers()
+		setup_mason_autoinstall()
 		create_lspattach_mappings()
 		require("lspsaga").setup()
 	end,

@@ -34,6 +34,7 @@ return {
 			callback = function(ev)
 				local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
 
+				-- If efm is not there, get the hell out
 				if vim.tbl_isempty(efm) then
 					return
 				end
