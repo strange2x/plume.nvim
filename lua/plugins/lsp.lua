@@ -63,7 +63,7 @@ local function create_lspattach_mappings()
 			)
 			vim.keymap.set(
 				"n",
-				"<leader>gd",
+				"gd",
 				"<cmd>Lspsaga goto_definition<cr>",
 				{ silent = true, desc = "[L]sp Goto Definition" }
 			)
