@@ -5,9 +5,16 @@ return {
 		vim.o.timeout = true
 		vim.o.timeoutlen = 300
 	end,
-	opts = {
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
-		-- refer to the configuration section below
-	},
+	opts = {},
+	config = function()
+		local which_key = require("which-key")
+		which_key.register({
+			["<leader>"] = {
+				l = { name = "LSP" },
+				f = { name = "File" },
+				t = { name = "Tabs" },
+				h = { name = "Harpoon" },
+			},
+		})
+	end,
 }
