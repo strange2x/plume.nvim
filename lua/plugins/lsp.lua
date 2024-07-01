@@ -2,6 +2,13 @@ local function setup_mason()
 	require("mason").setup()
 end
 
+local function on_attach_lsp(client)
+	local fidget = require("fidget")
+	if client.name ~= "efm" then
+		fidget.notification.notify("Attaching LSP -> " .. client.name)
+	end
+end
+
 local function setup_lsp_servers()
 	local mason_lsp = require("mason-lspconfig")
 	mason_lsp.setup({
@@ -14,6 +21,7 @@ local function setup_lsp_servers()
 		function(server_name)
 			require("lspconfig")[server_name].setup({
 				capabilities = capabilities,
+				on_attach = on_attach_lsp,
 			})
 		end,
 	})
