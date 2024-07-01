@@ -23,20 +23,20 @@ return {
 				require("efmls-configs.formatters.shfmt"),
 			},
 			javascript = {
-				require("efmls-configs.formatters.eslint"),
 				require("efmls-configs.formatters.prettier"),
+				require("efmls-configs.formatters.eslint"),
 			},
 			typescript = {
-				require("efmls-configs.formatters.eslint"),
 				require("efmls-configs.formatters.prettier"),
+				require("efmls-configs.formatters.eslint"),
 			},
 			javascriptreact = {
-				require("efmls-configs.formatters.eslint"),
 				require("efmls-configs.formatters.prettier"),
+				require("efmls-configs.formatters.eslint"),
 			},
 			typescriptreact = {
-				require("efmls-configs.formatters.eslint"),
 				require("efmls-configs.formatters.prettier"),
+				require("efmls-configs.formatters.eslint"),
 			},
 		})
 
