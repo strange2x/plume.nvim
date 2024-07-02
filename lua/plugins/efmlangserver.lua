@@ -30,6 +30,13 @@ return {
 				["*"] = {
 					require("formatter.filetypes.any").remove_trailing_whitespace,
 				},
+				["json"] = {
+					require("formatter.filetypes.json").jq,
+					require("formatter.filetypes.json").prettier,
+				},
+				["yaml"] = {
+					require("formatter.filetypes.yaml").prettier,
+				},
 			},
 		})
 
@@ -51,6 +58,9 @@ return {
 		vim.api.nvim_create_autocmd("BufWritePre", {
 			group = lsp_fmt_group,
 			callback = function(ev)
+				if vim.g.format_on_save == false then
+					return
+				end
 				local fidget = require("fidget")
 				if languages[vim.bo.filetype] == nil then
 					local formatter_filetypes = require("formatter.config").values.filetype
@@ -65,7 +75,7 @@ return {
 						})
 					else
 						fidget.notification.notify("Trying Formatting using LSP")
-						vim.lsp.buf.format({ bufnr = ev.buf, async = false })
+						vim.lsp.buf.format({ bufnr = ev.buf })
 					end
 				else
 					local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
@@ -73,7 +83,7 @@ return {
 						return
 					else
 						fidget.notification.notify("Formatting using EFM Langserver")
-						vim.lsp.buf.format({ name = "efm", bufnr = ev.buf, async = false })
+						vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
 					end
 				end
 			end,
