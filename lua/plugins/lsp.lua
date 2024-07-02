@@ -15,19 +15,39 @@ end
 -- Setting up mason-lspconfig and running automatic setup for lsps
 local function setup_lsp_servers()
 	local mason_lsp = require("mason-lspconfig")
+	local capabilities = vim.tbl_deep_extend(
+		"force",
+		{},
+		vim.lsp.protocol.make_client_capabilities(),
+		require("cmp_nvim_lsp").default_capabilities()
+	)
 	mason_lsp.setup({
 		ensure_installed = require("default_installed").mason_lspconfig,
 		automatic_installation = true,
-	})
-
-	local capabilities = require("cmp_nvim_lsp").default_capabilities()
-	mason_lsp.setup_handlers({
-		function(server_name)
-			require("lspconfig")[server_name].setup({
-				capabilities = capabilities,
-				on_attach = on_attach_lsp,
-			})
-		end,
+		handlers = {
+			-- Default handler for all lsp
+			function(server_name)
+				require("lspconfig")[server_name].setup({
+					capabilities = capabilities,
+					on_attach = on_attach_lsp,
+				})
+			end,
+			-- Specific handler for Lua
+			["lua_ls"] = function()
+				require("lspconfig").lua_ls.setup({
+					capabilities = capabilities,
+					on_attach_lsp = on_attach_lsp,
+					settings = {
+						Lua = {
+							diagnostics = {
+								globals = { "bit", "vim", "it", "describe", "before_each", "after_each" },
+							},
+						},
+					},
+				})
+			end,
+			-- If anything else, add here
+		},
 	})
 end
 
@@ -142,18 +162,11 @@ end
 -- Setting up mason-tool-installed and installing default packages
 local function setup_mason_autoinstall()
 	require("mason-tool-installer").setup({
-
-		-- a list of all tools you want to ensure are installed upon
-		-- start
 		ensure_installed = require("default_installed").mason,
 		auto_update = false,
-
 		run_on_start = true,
-
 		start_delay = 3000, -- 3 second delay
-
 		debounce_hours = 5, -- at least 5 hours between attempts to install/update
-
 		integrations = {
 			["mason-lspconfig"] = true,
 			["mason-null-ls"] = false,
@@ -193,7 +206,12 @@ local function setup_formatting()
 			if vim.g.format_on_save == false then
 				return
 			end
-			if languages[vim.bo.filetype] == nil then
+			-- Checking if efm is attached to current buffer
+			local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
+
+			-- If efm is attached or language is not supported by efm then
+			if languages[vim.bo.filetype] == nil or vim.tbl_isempty(efm) then
+				-- Check if the filetype is formattable using Format.nvim
 				local formatter_filetypes = require("formatter.config").values.filetype
 				if formatter_filetypes[vim.bo.filetype] then
 					fidget.notification.notify("Formatting using Formatter.nvim")
@@ -205,19 +223,30 @@ local function setup_formatting()
 						command = ":FormatWrite",
 					})
 				else
+					-- Else try using the default lsp for the filetype to format
 					fidget.notification.notify("Trying Formatting using LSP")
 					vim.lsp.buf.format({ bufnr = ev.buf })
 				end
 			else
-				local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
-				if vim.tbl_isempty(efm) then
-					return
-				else
-					fidget.notification.notify("Formatting using EFM Langserver")
-					vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
-				end
+				-- Else just use efm (Which is the default choice)
+				fidget.notification.notify("Formatting using EFM Langserver")
+				vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
 			end
 		end,
+	})
+end
+
+local function setup_diagnostics_config()
+	vim.diagnostic.config({
+		update_in_insert = true,
+		float = {
+			focusable = false,
+			style = "minimal",
+			border = "rounded",
+			source = "always",
+			header = "",
+			prefix = "",
+		},
 	})
 end
 
@@ -247,15 +276,6 @@ return {
 		create_lspattach_mappings()
 		require("lspsaga").setup()
 		setup_formatting()
-
-		require("lspconfig").lua_ls.setup({
-			settings = {
-				Lua = {
-					diagnostics = {
-						globals = { "vim" },
-					},
-				},
-			},
-		})
+		setup_diagnostics_config()
 	end,
 }
