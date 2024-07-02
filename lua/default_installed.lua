@@ -29,4 +29,37 @@ M.mason_lspconfig = {
 	"yamlls",
 }
 
+M.efmls_config = {
+	-- Custom languages, or override existing ones
+	html = {
+		require("efmls-configs.formatters.prettier"),
+	},
+	lua = {
+		require("efmls-configs.formatters.stylua"),
+	},
+	go = {
+		require("efmls-configs.linters.golangci_lint"),
+		require("efmls-configs.formatters.gofumpt"),
+	},
+	python = {
+		require("efmls-configs.formatters.black"),
+	},
+	sh = {
+		require("efmls-configs.formatters.shfmt"),
+	},
+}
+
+M.formatter_config = {
+	["*"] = {
+		require("formatter.filetypes.any").remove_trailing_whitespace,
+	},
+	["json"] = {
+		require("formatter.filetypes.json").jq,
+		require("formatter.filetypes.json").prettier,
+	},
+	["yaml"] = {
+		require("formatter.filetypes.yaml").prettier,
+	},
+}
+
 return M

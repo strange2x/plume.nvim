@@ -44,6 +44,9 @@ vim.keymap.set("n", "<leader>tp", "<CMD>tabprevious<CR>", { desc = "[Window] Got
 vim.keymap.set("n", "<leader>tn", "<CMD>tabnext<CR>", { desc = "[Window] Goto Next Tab", silent = true })
 vim.keymap.set("n", "<leader>tq", "<CMD>tabclose<CR>", { desc = "[Window] Goto Next Tab", silent = true })
 -- vim.keymap.set("n", "<leader>e", "<CMD>Lexplore<CR>", { desc = "Open Explore", silent = true })
+--
+vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
+vim.keymap.set("n", "<leader>Y", [["+Y]])
 
 vim.cmd([[
   set colorcolumn=80

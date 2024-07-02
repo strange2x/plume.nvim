@@ -1,14 +1,18 @@
+local fidget = require("fidget")
+
+-- Setting up Mason package manager
 local function setup_mason()
 	require("mason").setup()
 end
 
+-- Adding a custom function to show which lsp is being attached
 local function on_attach_lsp(client)
-	local fidget = require("fidget")
 	if client.name ~= "efm" then
 		fidget.notification.notify("Attaching LSP -> " .. client.name)
 	end
 end
 
+-- Setting up mason-lspconfig and running automatic setup for lsps
 local function setup_lsp_servers()
 	local mason_lsp = require("mason-lspconfig")
 	mason_lsp.setup({
@@ -27,6 +31,7 @@ local function setup_lsp_servers()
 	})
 end
 
+-- Creating custom keymapping for lsp
 local function create_lspattach_mappings()
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -87,6 +92,7 @@ local function create_lspattach_mappings()
 	})
 end
 
+-- Setting up nvim-cmp for completions
 local function setup_cmp()
 	local cmp = require("cmp")
 	cmp.setup({
@@ -133,6 +139,7 @@ local function setup_cmp()
 	})
 end
 
+-- Setting up mason-tool-installed and installing default packages
 local function setup_mason_autoinstall()
 	require("mason-tool-installer").setup({
 
@@ -155,6 +162,65 @@ local function setup_mason_autoinstall()
 	})
 end
 
+-- Adding formatting for code, this is handled using efm lang server and formatter.nvim
+local function setup_formatting()
+	local languages = require("efmls-configs.defaults").languages()
+	languages = vim.tbl_extend("force", languages, require("default_installed").efmls_config)
+
+	local formatter = require("formatter")
+	formatter.setup({
+		filetype = require("default_installed").formatter_config,
+	})
+
+	local efmls_config = {
+		filetypes = vim.tbl_keys(languages),
+		settings = {
+			rootMarkers = { ".git/", "node_modules/" },
+			languages = languages,
+		},
+		init_options = {
+			documentFormatting = true,
+			documentRangeFormatting = true,
+		},
+	}
+
+	require("lspconfig").efm.setup(vim.tbl_extend("force", efmls_config, {}))
+
+	local lsp_fmt_group = vim.api.nvim_create_augroup("LspFormattingGroup", {})
+	vim.api.nvim_create_autocmd("BufWritePre", {
+		group = lsp_fmt_group,
+		callback = function(ev)
+			if vim.g.format_on_save == false then
+				return
+			end
+			if languages[vim.bo.filetype] == nil then
+				local formatter_filetypes = require("formatter.config").values.filetype
+				if formatter_filetypes[vim.bo.filetype] then
+					fidget.notification.notify("Formatting using Formatter.nvim")
+					local augroup = vim.api.nvim_create_augroup
+					local autocmd = vim.api.nvim_create_autocmd
+					augroup("__formatter__", { clear = true })
+					autocmd("BufWritePost", {
+						group = "__formatter__",
+						command = ":FormatWrite",
+					})
+				else
+					fidget.notification.notify("Trying Formatting using LSP")
+					vim.lsp.buf.format({ bufnr = ev.buf })
+				end
+			else
+				local efm = vim.lsp.get_active_clients({ name = "efm", bufnr = ev.buf })
+				if vim.tbl_isempty(efm) then
+					return
+				else
+					fidget.notification.notify("Formatting using EFM Langserver")
+					vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
+				end
+			end
+		end,
+	})
+end
+
 return {
 	"neovim/nvim-lspconfig",
 	dependencies = {
@@ -169,7 +235,10 @@ return {
 		"hrsh7th/nvim-cmp",
 		"L3MON4D3/LuaSnip",
 		"saadparwaiz1/cmp_luasnip",
+		"creativenull/efmls-configs-nvim",
+		"mhartington/formatter.nvim",
 	},
+	-- Main setup function
 	config = function()
 		setup_cmp()
 		setup_mason()
@@ -177,6 +246,7 @@ return {
 		setup_mason_autoinstall()
 		create_lspattach_mappings()
 		require("lspsaga").setup()
+		setup_formatting()
 
 		require("lspconfig").lua_ls.setup({
 			settings = {
