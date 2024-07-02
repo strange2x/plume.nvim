@@ -1,15 +1,18 @@
 local fidget = require("fidget")
 
+-- Setting up Mason package manager
 local function setup_mason()
 	require("mason").setup()
 end
 
+-- Adding a custom function to show which lsp is being attached
 local function on_attach_lsp(client)
 	if client.name ~= "efm" then
 		fidget.notification.notify("Attaching LSP -> " .. client.name)
 	end
 end
 
+-- Setting up mason-lspconfig and running automatic setup for lsps
 local function setup_lsp_servers()
 	local mason_lsp = require("mason-lspconfig")
 	mason_lsp.setup({
@@ -28,6 +31,7 @@ local function setup_lsp_servers()
 	})
 end
 
+-- Creating custom keymapping for lsp
 local function create_lspattach_mappings()
 	vim.api.nvim_create_autocmd("LspAttach", {
 		group = vim.api.nvim_create_augroup("UserLspConfig", {}),
@@ -88,6 +92,7 @@ local function create_lspattach_mappings()
 	})
 end
 
+-- Setting up nvim-cmp for completions
 local function setup_cmp()
 	local cmp = require("cmp")
 	cmp.setup({
@@ -134,6 +139,7 @@ local function setup_cmp()
 	})
 end
 
+-- Setting up mason-tool-installed and installing default packages
 local function setup_mason_autoinstall()
 	require("mason-tool-installer").setup({
 
@@ -156,6 +162,7 @@ local function setup_mason_autoinstall()
 	})
 end
 
+-- Adding formatting for code, this is handled using efm lang server and formatter.nvim
 local function setup_formatting()
 	local languages = require("efmls-configs.defaults").languages()
 	languages = vim.tbl_extend("force", languages, require("default_installed").efmls_config)
@@ -231,6 +238,7 @@ return {
 		"creativenull/efmls-configs-nvim",
 		"mhartington/formatter.nvim",
 	},
+	-- Main setup function
 	config = function()
 		setup_cmp()
 		setup_mason()
