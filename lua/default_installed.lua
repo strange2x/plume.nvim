@@ -15,6 +15,7 @@ M.mason = {
 	"jq",
 	"cssls",
 	"docker_compose_language_service",
+	"shfmt",
 }
 
 M.mason_lspconfig = {

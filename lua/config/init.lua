@@ -48,15 +48,6 @@ vim.keymap.set("n", "<leader>tq", "<CMD>tabclose<CR>", { desc = "[Window] Goto N
 vim.keymap.set({ "n", "v" }, "<leader>y", [["+y]])
 vim.keymap.set("n", "<leader>Y", [["+Y]])
 
-vim.cmd([[
-  set colorcolumn=80
-]])
-
-vim.cmd([[ let g:netrw_banner=0 ]])
-vim.cmd([[ let g:netrw_keepdir=0 ]])
-vim.cmd([[ let g:netrw_winsize=20 ]])
-vim.cmd([[ let g:netrw_localcopydircmd='cp -r' ]])
-
 vim.o.cmdheight = 0
 
 require("config.lazy")
