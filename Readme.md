@@ -28,7 +28,16 @@ Installation is pretty simple, just clone the repo to the .config/nvim folder an
 - Treesitter
 - Treesitter text objects
 - One major thing is that there is both efm-langserver and Formatter.nvim integrated, both working in a way that the files that efm being the primary one, if a filetype is not supported by efm, then Formatter will try to format the particular file. If Formatter is also not available for the particular file, then LSP formatting will be tried. If all the options are not available, then sorry, no formatting for the file. But for most of the scenarios, this should cover everything.
+- There is no git integration configured in this setup as I personally dont use it. I have tmux set up and the next pane that I have in my workflow is lazygit and am using it directly
 
 ### Checkout
 
 Check the default_installed.lua file in the lua folder to see the different plugins and formatters added. If you want to add new, then just add here and it will be automatically included in the next restart
+
+### Feature Requests
+
+In case of any feature request, please feel free to create a Github Issue and I will take a look at it whenever possible.
+
+In case of suggestions also, please feel free to create the issues.
+
+Suggestions and Feature requests are always welcome.
