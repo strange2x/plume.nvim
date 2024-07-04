@@ -157,6 +157,12 @@ local function setup_cmp()
 		}),
 		matching = { disallow_symbol_nonprefix_matching = false },
 	})
+	cmp.setup.filetype("markdown", {
+		sources = {},
+	})
+	cmp.setup.filetype("text", {
+		sources = {},
+	})
 end
 
 -- Setting up mason-tool-installed and installing default packages
@@ -188,7 +194,7 @@ local function setup_formatting()
 	local efmls_config = {
 		filetypes = vim.tbl_keys(languages),
 		settings = {
-			rootMarkers = { ".git/", "node_modules/" },
+			rootMarkers = require("default_installed").efm_root_markers,
 			languages = languages,
 		},
 		init_options = {
@@ -238,7 +244,7 @@ end
 
 local function setup_diagnostics_config()
 	vim.diagnostic.config({
-		update_in_insert = true,
+		-- update_in_insert = true,
 		float = {
 			focusable = false,
 			style = "minimal",

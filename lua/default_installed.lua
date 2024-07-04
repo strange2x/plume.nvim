@@ -2,6 +2,10 @@ local M = {}
 
 M.treesitter = {
 	"lua",
+	"vimdoc",
+	"go",
+	"typescript",
+	"bash",
 }
 
 M.mason = {
@@ -50,6 +54,8 @@ M.efmls_config = {
 	},
 }
 
+M.efm_root_markers = { ".git/", "node_modules/" }
+
 M.formatter_config = {
 	["*"] = {
 		require("formatter.filetypes.any").remove_trailing_whitespace,
@@ -60,6 +66,9 @@ M.formatter_config = {
 	},
 	["yaml"] = {
 		require("formatter.filetypes.yaml").prettier,
+	},
+	["markdown"] = {
+		require("formatter.filetypes.markdown").prettier,
 	},
 }
 
