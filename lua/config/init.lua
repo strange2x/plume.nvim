@@ -26,6 +26,8 @@ vim.wo.relativenumber = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
+vim.opt.colorcolumn = "80"
+
 -- Normal Remaps
 
 local local_opts = { silent = true }

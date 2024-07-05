@@ -20,6 +20,7 @@ M.mason = {
 	"cssls",
 	"docker_compose_language_service",
 	"shfmt",
+	"tailwindcss-language-server",
 }
 
 M.mason_lspconfig = {
