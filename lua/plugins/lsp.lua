@@ -1,5 +1,12 @@
 local fidget = require("fidget")
 
+-- Provide me a function that will create fidget notification by passing the notification content as string
+local function create_fidget_notification()
+	return function(content)
+		fidget.notification.notify(content)
+	end
+end
+
 -- Setting up Mason package manager
 local function setup_mason()
 	require("mason").setup()
@@ -8,11 +15,12 @@ end
 -- Adding a custom function to show which lsp is being attached
 local function on_attach_lsp(client)
 	if client.name ~= "efm" then
-		fidget.notification.notify("Attaching LSP -> " .. client.name)
+		-- Call the function to show the notification
+		create_fidget_notification()("Attaching LSP -> " .. client.name)
 	end
 end
 
--- Setting up mason-lspconfig and running automatic setup for lsps
+-- Setting up mason-lspconfig and running automatic setup for lspslsp
 local function setup_lsp_servers()
 	local mason_lsp = require("mason-lspconfig")
 	local capabilities = vim.tbl_deep_extend(
@@ -140,6 +148,25 @@ local function setup_cmp()
 		}),
 	})
 
+	local has_words_before = function()
+		if vim.api.nvim_buf_get_option(0, "buftype") == "prompt" then
+			return false
+		end
+		local line, col = unpack(vim.api.nvim_win_get_cursor(0))
+		return col ~= 0 and vim.api.nvim_buf_get_text(0, line - 1, 0, line - 1, col, {})[1]:match("^%s*$") == nil
+	end
+	cmp.setup({
+		mapping = {
+			["<Tab>"] = vim.schedule_wrap(function(fallback)
+				if cmp.visible() and has_words_before() then
+					cmp.select_next_item({ behavior = cmp.SelectBehavior.Select })
+				else
+					fallback()
+				end
+			end),
+		},
+	})
+
 	-- Other sources
 	cmp.setup.cmdline({ "/", "?" }, {
 		mapping = cmp.mapping.preset.cmdline(),
@@ -220,7 +247,7 @@ local function setup_formatting()
 				-- Check if the filetype is formattable using Format.nvim
 				local formatter_filetypes = require("formatter.config").values.filetype
 				if formatter_filetypes[vim.bo.filetype] then
-					fidget.notification.notify("Formatting using Formatter.nvim")
+					create_fidget_notification()("Formatting using Formatter.nvim")
 					local augroup = vim.api.nvim_create_augroup
 					local autocmd = vim.api.nvim_create_autocmd
 					augroup("__formatter__", { clear = true })
@@ -229,13 +256,11 @@ local function setup_formatting()
 						command = ":FormatWrite",
 					})
 				else
-					-- Else try using the default lsp for the filetype to format
-					fidget.notification.notify("Trying Formatting using LSP")
+					create_fidget_notification()("Formatting using LSP")
 					vim.lsp.buf.format({ bufnr = ev.buf })
 				end
 			else
-				-- Else just use efm (Which is the default choice)
-				fidget.notification.notify("Formatting using EFM Langserver")
+				create_fidget_notification()("Formatting using EFM Langserver")
 				vim.lsp.buf.format({ name = "efm", bufnr = ev.buf })
 			end
 		end,
