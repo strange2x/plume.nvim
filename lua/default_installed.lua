@@ -26,6 +26,7 @@ M.mason_lspconfig = {
 	"lua_ls",
 	"efm",
 	"pyright",
+	"ts_ls",
 	"dockerls",
 	"helm_ls",
 	"prismals",

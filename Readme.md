@@ -10,6 +10,8 @@ There is only two pre-requisit for Plume.nvim
 
 - Make sure cmake is installed and available in path
 - Make sure to star the repo (lol) (Not really a requirement but thanks)
+- There are couple of packages that needs to be installed before starting with the cloning process
+    - cmake (For telescope-fzf-plugin to work)
 
 ### Installation
 
