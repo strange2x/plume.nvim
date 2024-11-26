@@ -25,8 +25,6 @@ M.mason = {
 M.mason_lspconfig = {
 	"lua_ls",
 	"efm",
-	"gopls",
-	"tsserver",
 	"pyright",
 	"dockerls",
 	"helm_ls",
@@ -51,6 +49,9 @@ M.efmls_config = {
 	},
 	sh = {
 		require("efmls-configs.formatters.shfmt"),
+	},
+	terraform = {
+		require("efmls-configs.formatters.terraform_fmt"),
 	},
 }
 
